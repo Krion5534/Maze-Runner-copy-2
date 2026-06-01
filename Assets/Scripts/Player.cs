@@ -10,8 +10,8 @@ public class Player : MonoBehaviour
    
     private void OnTriggerEnter(Collider other)
     {
-        
-        if (other.gameObject.CompareTag("ZombieHand"))
+        Debug.Log("PLAYER WAS TOUCHED BY: " + other.gameObject.name);
+        if (other.CompareTag("ZombieHand") || other.gameObject.name.Contains("Hand"))
         {
             
             ZombieHand handScript = other.gameObject.GetComponent<ZombieHand>();
@@ -33,6 +33,15 @@ public class Player : MonoBehaviour
         {
             
             print("Player is Dead!"); 
+            SceneChanger sceneChanger = GetComponentInChildren<SceneChanger>();
+            if (sceneChanger != null)
+            {
+                sceneChanger.TriggerSceneLoad();
+            }
+            else
+            {
+                Debug.LogError("Could not find SceneChanger component in children!");
+            }
         }
         else
         {

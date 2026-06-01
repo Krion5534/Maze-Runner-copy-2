@@ -29,7 +29,7 @@ public class ZombiePatrollingState : StateMachineBehaviour
             waypointsList.Add(child);
         }
 
-        // Send navigation agent directly to its first randomized path target [00:10:39]
+        
         if (waypointsList.Count > 0)
         {
             int randomIndex = Random.Range(0, waypointsList.Count);

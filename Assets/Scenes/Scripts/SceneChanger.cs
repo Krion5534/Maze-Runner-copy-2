@@ -1,23 +1,21 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class LoadLevelAfterTime : MonoBehaviour
+public class SceneChanger : MonoBehaviour
 {
     [SerializeField]
-    private float delayBeforeLoading = 10.0f;
+    private float delayBeforeLoading = 3000.0f;
 
     [SerializeField]
     private string sceneNameToLoad;
 
-    private float timeElapsed;
-
-    private void Update()
+    public void TriggerSceneLoad()
     {
-        timeElapsed += Time.deltaTime;
+        Invoke("LoadScene", delayBeforeLoading);
+    }
 
-        if (timeElapsed > delayBeforeLoading)
-        {
-            SceneManager.LoadScene(sceneNameToLoad);
-        }
+    private void LoadScene()
+    {
+        SceneManager.LoadScene(sceneNameToLoad);
     }
 }
