@@ -5,9 +5,17 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     // --- PLAYER STATS ---
-    public int HP = 100;
+    public int maxHP = 100;
+    public int HP;
+    public HealthBar healthBar;
 
    
+    private void Start()
+    {
+        HP = maxHP;
+        healthBar.SetMaxHealth(maxHP);
+    }
+    
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log("PLAYER WAS TOUCHED BY: " + other.gameObject.name);
@@ -28,6 +36,7 @@ public class Player : MonoBehaviour
     public void TakeDamage(int damage)
     {
         HP -= damage; 
+        healthBar.SetHealth(HP); 
 
         if (HP <= 0)
         {
