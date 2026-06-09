@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.SceneManagement; // Required for loading scenes
+using UnityEngine.SceneManagement; 
 
 public class MainMenu : MonoBehaviour
 {
@@ -7,7 +7,6 @@ public class MainMenu : MonoBehaviour
     public void PlayGame()
     {
         // Loads the scene named "GameScene". 
-        // Make sure this matches the exact name of your maze scene!
         SceneManager.LoadScene("SampleScene");
     }
 

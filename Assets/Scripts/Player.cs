@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -9,7 +10,18 @@ public class Player : MonoBehaviour
     public int HP;
     public HealthBar healthBar;
 
-   
+    private void OnTriggerEnter1(Collider other)
+    {
+        // Your log proved this line runs successfully:
+        Debug.Log("PLAYER WAS TOUCHED BY: " + other.gameObject.name);
+
+        // 2. Check if the object we touched is named "end"
+        if (other.gameObject.name == "end")
+        {
+            // 3. Load the scene (Replace "YourSceneName" with your actual scene's name)
+            SceneManager.LoadScene("YourSceneName"); 
+        }
+    }
     private void Start()
     {
         HP = maxHP;

@@ -79,10 +79,10 @@ public class Weapon : MonoBehaviour
             bulletScript.bulletDamage = weaponDamage; 
         }
 
-        // Align the forward velocity direction of the physics object to the tracked screen point path [00:05:17]
+        
         bullet.transform.forward = shootingDirection;
 
-        // Apply impulse velocity vector to shoot the bullet [00:05:25]
+        
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
         if (rb != null)
         {
@@ -91,54 +91,48 @@ public class Weapon : MonoBehaviour
 
         Destroy(bullet, bulletLifetime);
 
-        // Reset Shot Routine - Invoked using string tracking to support dynamic timing loops [00:05:31]
         if (allowReset)
         {
             Invoke("ResetShot", shootingDelay);
-            allowReset = false; // Clamp trigger lock [00:05:31]
+            allowReset = false; 
         }
 
-        // --- BURST LOGIC ---
-        // If in burst mode and there are more bullets left to shoot in this burst [00:05:44]
+        
         if (currentShootingMode == ShootingMode.Burst && burstBulletsLeft > 1)
         {
-            burstBulletsLeft--; // Deduct bullet from calculation loop count [00:05:57]
-            Invoke("FireWeapon", shootingDelay); // Loop weapon execution directly via recursion delay [00:05:57]
+            burstBulletsLeft--; 
+            Invoke("FireWeapon", shootingDelay); 
         }
     }
 
     private void ResetShot()
     {
-        readyToShoot = true; // Unlock weapon logic processing loop [00:06:38]
-        allowReset = true;   // Reset internal verification gate [00:06:38]
+        readyToShoot = true; 
+        allowReset = true;   
     }
 
     private Vector3 CalculateDirectionAndSpread()
     {
-        // Cast a target-finding ray right through the dead center of the screen viewport [00:07:26]
         Ray ray = playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         RaycastHit hit;
 
         Vector3 targetPoint;
 
-        // Check if the raycast collides physically with an obstacle or layout geometry [00:07:34]
+        
         if (Physics.Raycast(ray, out hit))
         {
-            targetPoint = hit.point; // Target found in space [00:07:34]
+            targetPoint = hit.point; 
         }
         else
         {
-            targetPoint = ray.GetPoint(100); // Ray missed; fallback target path drawn 100 units out [00:07:40]
+            targetPoint = ray.GetPoint(100); 
         }
 
-        // Base calculation heading: Target point vector minus gun tip origin vector [00:07:52]
         Vector3 direction = targetPoint - bulletSpawn.position;
 
-        // Generate accuracy offset vectors dynamically across horizontal and vertical thresholds [00:08:13]
         float xSpread = Random.Range(-spreadIntensity, spreadIntensity);
         float ySpread = Random.Range(-spreadIntensity, spreadIntensity);
 
-        // Inject the localized accuracy spread deviations into the normalized forward facing direction [00:08:28]
         return direction + playerCamera.transform.right * xSpread + playerCamera.transform.up * ySpread;
     }
 }
